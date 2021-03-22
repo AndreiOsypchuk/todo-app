@@ -1,0 +1,32 @@
+.auth-container {
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  text-align: left;
+  height: 400px;
+}
+
+.auth-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 300px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.auth-header {
+  position: relative;
+  margin-bottom: 45px;
+}
+.auth-alert {
+  position: absolute;
+  top: 30px;
+  color: red;
+  font-size: small;
+}
