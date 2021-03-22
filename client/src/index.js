@@ -3,20 +3,27 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Provider} from 'react-redux';
+
+import {ApolloProvider} from '@apollo/client';
 import {BrowserRouter} from 'react-router-dom';
-import {PersistGate} from 'redux-persist/lib/integration/react';
-import {persistor, store} from './redux/store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+
+import {client} from './apolloconfig';
+import {store, persistor} from './redux/store';
+
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        </PersistGate>
+      </Provider>
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 

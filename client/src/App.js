@@ -1,17 +1,16 @@
-import './App.css';
-import {Route, Redirect, useLocation} from 'react-router-dom';
 import {AuthPage, TodoPage} from './pages';
+import {useLocation, Route, Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 function App() {
-  const loggedIn = useSelector(store => store.loggedIn)
+  const loggedIn = useSelector(state => state.loggedIn)
   const path = useLocation().pathname;
+  console.log(loggedIn);
   return (
     <>
-      <Route exact path="/" component={AuthPage} />
-      <Route exact path="/login" component={AuthPage}/>
+      <Route exact path='/auth' component={AuthPage}/>
       <Route exact path='/todos' component={TodoPage}/>
-      {loggedIn && (path === '/' || path === '/login') ? <Redirect to='/todos'/>: null}
-      {!loggedIn && (path !== '/' || path !== '/login') ? <Redirect to='/'/>: null}
+      {!loggedIn && (path !== '/auth') ? <Redirect to="/auth"/> : null}
+      {loggedIn && (path !== '/todos') ? <Redirect to="/todos"/> : null}
     </>
   );
 }

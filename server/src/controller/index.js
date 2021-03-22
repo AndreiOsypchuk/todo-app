@@ -22,8 +22,6 @@ export class UserController {
           res.cookie('ref', rToken, {maxAge: 3600000 * 24});
           return {
             _id: newUser._doc._id,
-            name: newUser._doc.name,
-            todoList: {...newTodoList._doc},
           };
         } else {
           throw new Error('user already exists');
@@ -53,8 +51,6 @@ export class UserController {
             res.cookie('ref', rToken, {maxAge: 3600000 * 24});
             return {
               _id: user._doc._id,
-              name: user._doc.name,
-              todoList: {...todos._doc},
             };
           }
         } else {
@@ -161,6 +157,18 @@ export class TodoController {
         todos.save();
       });
       return {sucess: true, status: 'OK'};
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
+
+  static async getTodos(req) {
+    try {
+      let todoList = {};
+      await TodoController.verifyRequest(req, async (todos) => {
+        todoList = todos._doc.todos;
+      });
+      return todoList;
     } catch (e) {
       throw new Error(e.message);
     }

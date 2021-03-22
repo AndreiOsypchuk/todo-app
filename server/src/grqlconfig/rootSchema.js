@@ -16,7 +16,7 @@ export const rootSchema = buildSchema(`
   }
 
   type Query {
-    todos(owner: ID): TodoList,
+    todos: [Todo],
     refresh: VoidResponse
   }
   type Mutation {
