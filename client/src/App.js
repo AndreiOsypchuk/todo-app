@@ -4,7 +4,6 @@ import {useSelector} from 'react-redux'
 function App() {
   const loggedIn = useSelector(state => state.loggedIn)
   const path = useLocation().pathname;
-  console.log(loggedIn);
   return (
     <>
       <Route exact path='/auth' component={AuthPage}/>

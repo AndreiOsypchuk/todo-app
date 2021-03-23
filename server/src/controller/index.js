@@ -128,7 +128,7 @@ export class TodoController {
 
   static async deleteTodo(args, req) {
     try {
-      TodoController.verifyRequest(req, async (todos) => {
+      await TodoController.verifyRequest(req, async (todos) => {
         todos.deleteTodos(args.todoIds);
         todos.save();
       });
@@ -140,20 +140,8 @@ export class TodoController {
 
   static async updateTodo(args, req) {
     try {
-      TodoController.verifyRequest(req, async (todos) => {
-        todos.updateTodo(args.todo);
-        todos.save();
-      });
-      return {sucess: true, status: 'OK'};
-    } catch (e) {
-      throw new Error(e.message);
-    }
-  }
-
-  static async toggleTodo(args, req) {
-    try {
       await TodoController.verifyRequest(req, async (todos) => {
-        todos.toggleTodo(args.todoId);
+        todos.updateTodo(args.todo);
         todos.save();
       });
       return {sucess: true, status: 'OK'};

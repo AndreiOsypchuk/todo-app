@@ -3,7 +3,7 @@ export const todoListQLSchema = `
     _id: ID,
     title: String!,
     description: String,
-    done: Boolean
+    category: String!
   }
   type TodoList {
     _id: ID,

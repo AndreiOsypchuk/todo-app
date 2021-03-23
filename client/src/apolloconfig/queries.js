@@ -26,12 +26,30 @@ mutation Register($name: String!, $email: String!, $password: String!){
 `)
 
 export const GET_TODOS = gql(`
-  {
-   todos {
-     _id
-     title
-     description
-     done
-    }
+{
+  todos {
+    title
+    description
+    category
+    _id
   }
+}
+`)
+
+export const UPDATE_TODO = gql(`
+
+mutation updateTodo($_id: ID!, $title: String!, $description: String!, $category: String){
+  updateTodo(todo: {_id: $_id, title: $title, description: $description, category:$category}) {
+    sucess
+    status
+  }
+}
+`)
+
+export const ADD_TODO = gql(`
+mutation addTodo($title: String!, $description: String!){
+  addTodo(title: $title, description: $description ) {
+    sucess, status
+  }
+}
 `)

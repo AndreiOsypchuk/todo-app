@@ -8,7 +8,6 @@ export const getRoot = async (req, res, graphQLParams) => {
     addTodo: async (args) => await TodoController.addTodo(args, req),
     deleteTodos: async (args) => await TodoController.deleteTodo(args, req),
     updateTodo: async (args) => await TodoController.updateTodo(args, req),
-    toggleTodo: async (args) => await TodoController.toggleTodo(args, req),
     todos: async () => await TodoController.getTodos(req)
   };
 };

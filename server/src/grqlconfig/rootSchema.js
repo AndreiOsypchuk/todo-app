@@ -8,7 +8,7 @@ export const rootSchema = buildSchema(`
     _id: ID!, 
     title: String,
     description: String
-    done: Boolean
+    category: String
   }
   type VoidResponse {
     sucess: Boolean,
@@ -26,6 +26,5 @@ export const rootSchema = buildSchema(`
     addTodo(title: String!, description: String): VoidResponse,
     deleteTodos(todoIds: [ID]): VoidResponse,
     updateTodo(todo: TodoInput!) : VoidResponse,
-    toggleTodo(todoId: ID): VoidResponse,
   }
 `);
