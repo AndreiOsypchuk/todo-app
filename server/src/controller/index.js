@@ -14,12 +14,12 @@ export class UserController {
             owner: newUser._doc._id,
           });
           newTodoList.save();
-          const aToken = tokenize({id: newUser._doc._id}, '15m');
-          const rToken = tokenize({id: newUser._doc._id}, '1d');
+          const aToken = tokenize({id: newUser._doc._id}, '1d');
+          const rToken = tokenize({id: newUser._doc._id}, '7d');
           newUser.addToken(rToken);
           newUser.save();
-          res.cookie('acc', aToken, {maxAge: 36000 * 15});
-          res.cookie('ref', rToken, {maxAge: 3600000 * 24});
+          res.cookie('acc', aToken, {maxAge: 3600000 * 24});
+          res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7});
           return {
             _id: newUser._doc._id,
           };
@@ -43,12 +43,12 @@ export class UserController {
         if (user && match) {
           const todos = await TodoList.findOne({owner: user._doc._id});
           if (todos) {
-            const aToken = tokenize({id: user._doc._id}, '15m');
-            const rToken = tokenize({id: user._doc._id}, '1d');
+            const aToken = tokenize({id: user._doc._id}, '1d');
+            const rToken = tokenize({id: user._doc._id}, '7d');
             user.addToken(rToken);
             user.save();
-            res.cookie('acc', aToken, {maxAge: 36000 * 15});
-            res.cookie('ref', rToken, {maxAge: 3600000 * 24});
+            res.cookie('acc', aToken, {maxAge: 3600000 * 24});
+            res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7});
             return {
               _id: user._doc._id,
             };
@@ -72,8 +72,8 @@ export class UserController {
         if (id) {
           const user = await User.findById(id);
           if (user) {
-            const aToken = tokenize({id: user._doc._id}, '15m');
-            res.cookie('acc', aToken, {maxAge: 36000 * 15});
+            const aToken = tokenize({id: user._doc._id}, '1d');
+            res.cookie('acc', aToken, {maxAge: 3600000 * 24});
             return {sucess: true, status: 'OK'};
           } else {
             throw new Error('invalid token');
@@ -116,11 +116,13 @@ export class UserController {
 export class TodoController {
   static async addTodo(args, req) {
     try {
+      let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.addTodo({...args});
+        response = todos._doc.todos;
         todos.save();
       });
-      return {sucess: true, status: 'OK'};
+      return response;
     } catch (e) {
       throw new Error(e.message);
     }
@@ -128,11 +130,13 @@ export class TodoController {
 
   static async deleteTodo(args, req) {
     try {
+      let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.deleteTodos(args.todoIds);
+        response = todos._doc.todos;
         todos.save();
       });
-      return {sucess: true, status: 'OK'};
+      return response;
     } catch (e) {
       throw new Error(e.message);
     }
@@ -140,11 +144,13 @@ export class TodoController {
 
   static async updateTodo(args, req) {
     try {
+      let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.updateTodo(args.todo);
+        response = todos._doc.todos;
         todos.save();
       });
-      return {sucess: true, status: 'OK'};
+      return response;
     } catch (e) {
       throw new Error(e.message);
     }

@@ -23,8 +23,8 @@ export const rootSchema = buildSchema(`
     register(name: String!, email: String!, password: String!): User,
     login(email: String!, password: String!): User,
     logout: VoidResponse,
-    addTodo(title: String!, description: String): VoidResponse,
-    deleteTodos(todoIds: [ID]): VoidResponse,
-    updateTodo(todo: TodoInput!) : VoidResponse,
+    addTodo(title: String!, description: String): [Todo],
+    deleteTodos(todoIds: [ID]): [Todo],
+    updateTodo(todo: TodoInput!) : [Todo],
   }
 `);
