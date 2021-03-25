@@ -8,7 +8,6 @@ export const REFRESH = gql(`
 }`)
 
 export const LOG_IN = gql(`
-
   mutation Login($email: String!, $password: String!){
     user: login(email: $email, password: $password) {
       _id
@@ -17,7 +16,6 @@ export const LOG_IN = gql(`
 `)
 
 export const REGISTER = gql(`
-
 mutation Register($name: String!, $email: String!, $password: String!){
   register(name: $name, email: $email, password:$password) {
     _id
@@ -37,11 +35,12 @@ export const GET_TODOS = gql(`
 `)
 
 export const UPDATE_TODO = gql(`
-
 mutation updateTodo($_id: ID!, $title: String!, $description: String!, $category: String){
-  updateTodo(todo: {_id: $_id, title: $title, description: $description, category:$category}) {
-    sucess
-    status
+  todos: updateTodo(todo: {_id: $_id, title: $title, description: $description, category:$category}) {
+    title
+    description
+    category
+    _id
   }
 }
 `)
