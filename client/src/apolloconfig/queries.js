@@ -46,9 +46,33 @@ mutation updateTodo($_id: ID!, $title: String!, $description: String!, $category
 `)
 
 export const ADD_TODO = gql(`
-mutation addTodo($title: String!, $description: String!){
-  addTodo(title: $title, description: $description ) {
-    sucess, status
+mutation addTodo($title: String!, $description: String){
+  todos: addTodo(title: $title, description: $description ) {
+    title
+    description
+    category
+    _id
+  }
+}
+`)
+
+export const DELETE_TODO = gql(`
+mutation deleteTodos($_id: [ID]!){
+  todos: deleteTodos(todoIds: $_id ) {
+    title
+    description
+    category
+    _id
+  }
+}
+`)
+
+
+export const LOG_OUT = gql(`
+mutation {
+  logout {
+    sucess
+    status
   }
 }
 `)

@@ -1,14 +1,23 @@
 import React from 'react';
 import {TodoList, NavBar} from '../../components';
-import {useDispatch} from 'react-redux';
+import {LinearProgress} from '@material-ui/core';
+import {useSelector} from 'react-redux';
 export const TodoPage = () => {
-  const dispatch = useDispatch();
-  //=============
-
+  const [progress, setProgress] = React.useState(0);
+  const todos = useSelector((state) => state.todos);
+  React.useEffect(() => {
+    let full = todos.todo.length + todos.doing.length + todos.done.length;
+    setProgress(() => (todos.done.length / full) * 100);
+  }, [todos]);
   return (
     <div className="flex flex-col h-screen w-screen ">
       <NavBar />
-      <div className=" flex flex-grow justify-center items-center">
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        className="w-full"
+      />
+      <div className=" flex flex-grow flex-col justify-center items-center">
         <TodoList />
       </div>
     </div>

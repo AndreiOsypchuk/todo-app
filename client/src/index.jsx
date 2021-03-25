@@ -17,9 +17,7 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <React.StrictMode>
             <App />
-          </React.StrictMode>
         </PersistGate>
       </Provider>
     </ApolloProvider>

@@ -5,7 +5,6 @@ import {LoadTodos} from '../../redux/reducers'
 
 export const TodoList = () => {
   const dispatch = useDispatch();
-  //=============
 
   React.useEffect(() => {
     dispatch(LoadTodos());

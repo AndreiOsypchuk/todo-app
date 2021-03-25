@@ -21,7 +21,6 @@ export const rootReducer = (store = initialState, action) => {
       let newTodos = {todo: [], doing: [], done: []};
       for (let i = 0; i < action.payload.length; i++) {
         newTodos[action.payload[i].category].push(action.payload[i]);
-        console.log(action.payload[i]);
       }
       return {...store, todos: newTodos};
     }

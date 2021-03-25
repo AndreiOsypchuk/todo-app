@@ -4,9 +4,15 @@ import {TodoForm} from '../TodoForm';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import {useMutation} from '@apollo/client'
+import {DELETE_TODO, REFRESH, client} from '../../apolloconfig'
+import {useDispatch} from 'react-redux'
 export const TodoItem = ({todo, origin}) => {
   const [updating, setUpdating] = React.useState(false);
   const [menuAnchor, setMenuAnchor] = React.useState(null);
+  const [deleteTodoMutation] = useMutation(DELETE_TODO);
+  const dispatch = useDispatch();
+
   const handleDragStart = (e, id, or) => {
     e.dataTransfer.setData('id', id);
     e.dataTransfer.setData('origin', or);
@@ -25,7 +31,26 @@ export const TodoItem = ({todo, origin}) => {
     handleMenuClose();
     setUpdating(true);
   }
-  React.useEffect(() => console.log(todo, 'from item'), [todo]);
+  const deleteTodo = async (_id) => {
+    try {
+      const {data} = await deleteTodoMutation({variables: {_id}}); 
+
+      dispatch({type: 'LOAD_TODOS', payload: data.todos});
+    } catch (e) {
+      if (e.message === 'forbidden') {
+        await client.query({query: REFRESH});
+        await deleteTodo(_id);
+      } else if (e.message === 'invalid token') {
+        dispatch({type: 'LOG_OUT'});
+      } else {
+        console.log(e.message);
+      }
+    }
+  };
+  const handleTodoDelete = () => {
+    deleteTodo(todo._id);
+    handleMenuClose();
+  }
   return (
     <>
       {updating ? (
@@ -46,7 +71,7 @@ export const TodoItem = ({todo, origin}) => {
                 onClose={handleMenuClose}
               >
                 <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                <MenuItem onClick={handleTodoDelete}>Delete</MenuItem>
               </Menu>
             </div>
           <div onDoubleClick={() => setUpdating(true)} className="">
