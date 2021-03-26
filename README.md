@@ -1,4 +1,5 @@
 # Todo-app
+Drag-and-drop todo app with user authentication and the ability to create, edit, and save todos in a database.
 ### Backend:
 - MongoDB
 - GraphQL
@@ -9,6 +10,7 @@
 
 ### Frontend:
 - React
+- React router
 - Redux (react-redux, redux-persist, redux-thunk)
 - Apollo client
 - Material UI
