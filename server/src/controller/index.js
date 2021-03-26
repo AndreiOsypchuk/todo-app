@@ -18,8 +18,8 @@ export class UserController {
           const rToken = tokenize({id: newUser._doc._id}, '7d');
           newUser.addToken(rToken);
           newUser.save();
-          res.cookie('acc', aToken, {maxAge: 3600000 * 24});
-          res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7});
+          res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
+          res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true});
           return {
             _id: newUser._doc._id,
           };
@@ -47,8 +47,8 @@ export class UserController {
             const rToken = tokenize({id: user._doc._id}, '7d');
             user.addToken(rToken);
             user.save();
-            res.cookie('acc', aToken, {maxAge: 3600000 * 24});
-            res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7});
+            res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
+            res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true});
             return {
               _id: user._doc._id,
             };
@@ -73,7 +73,7 @@ export class UserController {
           const user = await User.findById(id);
           if (user) {
             const aToken = tokenize({id: user._doc._id}, '1d');
-            res.cookie('acc', aToken, {maxAge: 3600000 * 24});
+            res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
             return {sucess: true, status: 'OK'};
           } else {
             throw new Error('invalid token');

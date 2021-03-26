@@ -8,12 +8,24 @@ import {grqlConfig} from './grqlconfig';
 dotenv.config();
 
 const app = express();
+app.enable('trust proxy');
 app.use(express.json());
 app.use(cookieParser());
 
+const whitelist = [
+  'http://localhost:3000',
+  'https://obscure-oasis-89110.herokuapp.com',
+];
+
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('not allowed by cors'));
+      }
+    },
     credentials: true,
     optionsSuccessStatus: 200,
   }),

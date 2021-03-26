@@ -10,6 +10,7 @@ export const AuthPage = () => {
   const [Login] = useMutation(LOG_IN);
   const [Register] = useMutation(REGISTER);
   const dispatch = useDispatch();
+  
   const handleChange = (e) => {
     const field = e.target.name;
     const value = e.target.value;
@@ -89,6 +90,7 @@ export const AuthPage = () => {
                   className="w-full"
                   name="password"
                   label="Password"
+                  type='password'
                   onChange={handleChange}
                   required
                   value={user.password ? user.password : ''}
