@@ -10,6 +10,7 @@ export const NavBar = () => {
       await logoutMutation();
       dispatch({type: 'LOG_OUT'});
     } catch (e) {
+      dispatch({type: 'LOG_OUT'});
       console.log(e);
     }
   };
