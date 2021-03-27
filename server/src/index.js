@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {dbConnection} from './dbconfig';
 import {grqlConfig} from './grqlconfig';
-
+import {shouldSendSameSiteNone} from 'should-send-same-site-none';
 dotenv.config();
 
 const app = express();
@@ -26,10 +26,13 @@ app.use(
         callback(new Error('not allowed by cors'));
       }
     },
+    // origin: 'http://localhost:3001',
     credentials: true,
     optionsSuccessStatus: 200,
   }),
 );
+
+app.use(shouldSendSameSiteNone);
 
 app.use('/graphql', grqlConfig);
 

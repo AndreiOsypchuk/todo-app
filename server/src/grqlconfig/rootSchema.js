@@ -20,8 +20,8 @@ export const rootSchema = buildSchema(`
     refresh: VoidResponse
   }
   type Mutation {
-    register(name: String!, email: String!, password: String!): User,
-    login(email: String!, password: String!): User,
+    register(name: String!, email: String!, password: String!): [Todo],
+    login(email: String!, password: String!): [Todo],
     logout: VoidResponse,
     addTodo(title: String!, description: String): [Todo],
     deleteTodos(todoIds: [ID]): [Todo],

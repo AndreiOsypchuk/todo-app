@@ -9,7 +9,10 @@ export const REFRESH = gql(`
 
 export const LOG_IN = gql(`
   mutation Login($email: String!, $password: String!){
-    user: login(email: $email, password: $password) {
+    todos: login(email: $email, password: $password) {
+      title
+      description
+      category
       _id
     }
   }
@@ -17,7 +20,10 @@ export const LOG_IN = gql(`
 
 export const REGISTER = gql(`
 mutation Register($name: String!, $email: String!, $password: String!){
-  register(name: $name, email: $email, password:$password) {
+  todos: register(name: $name, email: $email, password:$password) {
+    title
+    description
+    category
     _id
   }
 }

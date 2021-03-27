@@ -18,11 +18,9 @@ export class UserController {
           const rToken = tokenize({id: newUser._doc._id}, '7d');
           newUser.addToken(rToken);
           newUser.save();
-          res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
-          res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true});
-          return {
-            _id: newUser._doc._id,
-          };
+          res.cookie('acc', aToken, {sameSite: 'none', secure: true});
+          res.cookie('ref', rToken, {sameSite: 'none', secure: true});
+          return  newTodoList._doc.todos;
         } else {
           throw new Error('user already exists');
         }
@@ -42,16 +40,15 @@ export class UserController {
         const match = user ? await compare(password, user._doc.password) : null;
         if (user && match) {
           const todos = await TodoList.findOne({owner: user._doc._id});
+          console.log(todos._doc.todos);
           if (todos) {
             const aToken = tokenize({id: user._doc._id}, '1d');
             const rToken = tokenize({id: user._doc._id}, '7d');
             user.addToken(rToken);
             user.save();
-            res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
-            res.cookie('ref', rToken, {maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true});
-            return {
-              _id: user._doc._id,
-            };
+            res.cookie('acc', aToken, {sameSite: 'none', secure: true});
+            res.cookie('ref', rToken, {sameSite: 'none', secure: true});
+            return todos._doc.todos;
           }
         } else {
           throw new Error('wrong email or password');
@@ -73,7 +70,7 @@ export class UserController {
           const user = await User.findById(id);
           if (user) {
             const aToken = tokenize({id: user._doc._id}, '1d');
-            res.cookie('acc', aToken, {maxAge: 3600000 * 24, sameSite: 'none', secure: true});
+            res.cookie('acc', aToken, {sameSite: 'none', secure: true});
             return {sucess: true, status: 'OK'};
           } else {
             throw new Error('invalid token');
@@ -98,8 +95,8 @@ export class UserController {
           const user = await User.findById(id);
           user.deleteToken(ref);
           user.save();
-          res.clearCookie('ref');
-          res.clearCookie('acc');
+          res.cookie('ref', '',{sameSite: 'none', secure: true, maxAge: 0});
+          res.cookie('acc','', {sameSite: 'none', secure: true, maxAge: 0});
           return {sucess: true, status: 'OK'};
         } else {
           return {sucess: true, status: 'OK'};

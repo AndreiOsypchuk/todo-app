@@ -12,7 +12,11 @@ const initialState = {
 export const rootReducer = (store = initialState, action) => {
   switch (action.type) {
     case 'LOG_IN': {
-      return {...store, loggedIn: true};
+      let newTodos = {todo: [], doing: [], done: []};
+      for (let i = 0; i < action.payload.length; i++) {
+        newTodos[action.payload[i].category].push(action.payload[i]);
+      }
+      return {...store, todos: newTodos, loggedIn: true};
     }
     case 'LOG_OUT': {
       return initialState;

@@ -9,6 +9,7 @@ export const TodoPage = () => {
     let full = todos.todo.length + todos.doing.length + todos.done.length;
     setProgress(() => (todos.done.length / full) * 100);
   }, [todos]);
+
   return (
     <div className="flex flex-col h-screen w-screen ">
       <NavBar />
