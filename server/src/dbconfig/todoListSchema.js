@@ -6,7 +6,7 @@ const todoListSchema = new mongoose.Schema({
 });
 
 todoListSchema.methods.addTodo = function addTodo(todo) {
-  this.todos.push(todo);
+  this.todos.unshift(todo);
 };
 
 todoListSchema.methods.updateTodo = function updateTodo(todo) {

@@ -11,7 +11,7 @@ export const rootSchema = buildSchema(`
     category: String
   }
   type VoidResponse {
-    sucess: Boolean,
+    success: Boolean,
     status: String
   }
 
@@ -23,8 +23,8 @@ export const rootSchema = buildSchema(`
     register(name: String!, email: String!, password: String!): [Todo],
     login(email: String!, password: String!): [Todo],
     logout: VoidResponse,
-    addTodo(title: String!, description: String): [Todo],
-    deleteTodos(todoIds: [ID]): [Todo],
-    updateTodo(todo: TodoInput!) : [Todo],
+    addTodo(title: String!, description: String): Todo,
+    deleteTodos(todoIds: [ID]): VoidResponse,
+    updateTodo(todo: TodoInput!) : VoidResponse,
   }
 `);

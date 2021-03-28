@@ -14,9 +14,8 @@ export const TodoForm = ({todo, action, handleClose}) => {
   });
   const updateTodo = async (t) => {
     try {
-      const {data} = await updateTodoMutation({variables: {...t}});
-      console.log(data);
-      dispatch({type: 'LOAD_TODOS', payload: data.todos});
+      await updateTodoMutation({variables: {...t}});
+      dispatch({type: 'UPDATE_TODO', payload: t});
     } catch (e) {
       if (e.message === 'forbidden') {
         await client.query({query: REFRESH});
@@ -32,8 +31,7 @@ export const TodoForm = ({todo, action, handleClose}) => {
   const addTodo = async (t) => {
     try {
       const {data} = await addTodoMutation({variables: {...t}});
-      console.log(data);
-      dispatch({type: 'LOAD_TODOS', payload: data.todos});
+      dispatch({type: 'ADD_TODO', payload: data.todo});
     } catch (e) {
       if (e.message === 'forbidden') {
         await client.query({query: REFRESH});

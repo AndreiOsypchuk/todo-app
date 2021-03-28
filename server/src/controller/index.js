@@ -40,7 +40,6 @@ export class UserController {
         const match = user ? await compare(password, user._doc.password) : null;
         if (user && match) {
           const todos = await TodoList.findOne({owner: user._doc._id});
-          console.log(todos._doc.todos);
           if (todos) {
             const aToken = tokenize({id: user._doc._id}, '1d');
             const rToken = tokenize({id: user._doc._id}, '7d');
@@ -71,7 +70,7 @@ export class UserController {
           if (user) {
             const aToken = tokenize({id: user._doc._id}, '1d');
             res.cookie('acc', aToken, {sameSite: 'none', secure: true});
-            return {sucess: true, status: 'OK'};
+            return {success: true, status: 'OK'};
           } else {
             throw new Error('invalid token');
           }
@@ -97,12 +96,12 @@ export class UserController {
           user.save();
           res.cookie('ref', '',{sameSite: 'none', secure: true, maxAge: 0});
           res.cookie('acc','', {sameSite: 'none', secure: true, maxAge: 0});
-          return {sucess: true, status: 'OK'};
+          return {success: true, status: 'OK'};
         } else {
-          return {sucess: true, status: 'OK'};
+          return {success: true, status: 'OK'};
         }
       } else {
-        return {sucess: true, status: 'OK'};
+        return {success: true, status: 'OK'};
       }
     } catch (e) {
       throw new Error(e.message);
@@ -116,7 +115,7 @@ export class TodoController {
       let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.addTodo({...args});
-        response = todos._doc.todos;
+        response = todos._doc.todos[0];
         todos.save();
       });
       return response;
@@ -127,13 +126,11 @@ export class TodoController {
 
   static async deleteTodo(args, req) {
     try {
-      let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.deleteTodos(args.todoIds);
-        response = todos._doc.todos;
         todos.save();
       });
-      return response;
+      return {success: true, status: 'OK'};
     } catch (e) {
       throw new Error(e.message);
     }
@@ -141,13 +138,11 @@ export class TodoController {
 
   static async updateTodo(args, req) {
     try {
-      let response;
       await TodoController.verifyRequest(req, async (todos) => {
         todos.updateTodo(args.todo);
-        response = todos._doc.todos;
         todos.save();
       });
-      return response;
+      return {success: true, status: 'OK'};
     } catch (e) {
       throw new Error(e.message);
     }

@@ -2,7 +2,7 @@ import {gql} from '@apollo/client'
 export const REFRESH = gql(`
 {
   refresh {
-    sucess,
+    success,
     status
   }
 }`)
@@ -42,18 +42,16 @@ export const GET_TODOS = gql(`
 
 export const UPDATE_TODO = gql(`
 mutation updateTodo($_id: ID!, $title: String!, $description: String!, $category: String){
-  todos: updateTodo(todo: {_id: $_id, title: $title, description: $description, category:$category}) {
-    title
-    description
-    category
-    _id
+  todo: updateTodo(todo: {_id: $_id, title: $title, description: $description, category:$category}) {
+    success
+    status
   }
 }
 `)
 
 export const ADD_TODO = gql(`
 mutation addTodo($title: String!, $description: String){
-  todos: addTodo(title: $title, description: $description ) {
+  todo: addTodo(title: $title, description: $description ) {
     title
     description
     category
@@ -65,10 +63,8 @@ mutation addTodo($title: String!, $description: String){
 export const DELETE_TODO = gql(`
 mutation deleteTodos($_id: [ID]!){
   todos: deleteTodos(todoIds: $_id ) {
-    title
-    description
-    category
-    _id
+    success
+    status
   }
 }
 `)
@@ -77,7 +73,7 @@ mutation deleteTodos($_id: [ID]!){
 export const LOG_OUT = gql(`
 mutation {
   logout {
-    sucess
+    success
     status
   }
 }

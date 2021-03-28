@@ -31,11 +31,11 @@ export const TodoItem = ({todo, origin}) => {
     handleMenuClose();
     setUpdating(true);
   }
-  const deleteTodo = async (_id) => {
+  const deleteTodo = async (_id, category) => {
     try {
-      const {data} = await deleteTodoMutation({variables: {_id}}); 
+      await deleteTodoMutation({variables: {_id}}); 
 
-      dispatch({type: 'LOAD_TODOS', payload: data.todos});
+      dispatch({type: 'DELETE_TODO', payload: {_id, category}});
     } catch (e) {
       if (e.message === 'forbidden') {
         await client.query({query: REFRESH});
@@ -48,7 +48,7 @@ export const TodoItem = ({todo, origin}) => {
     }
   };
   const handleTodoDelete = () => {
-    deleteTodo(todo._id);
+    deleteTodo(todo._id, todo.category);
     handleMenuClose();
   }
   return (
